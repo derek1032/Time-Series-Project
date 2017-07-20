@@ -48,9 +48,9 @@ acf(GBP_diff,main='Log Return of Exchange Rate(GBP)');pacf(GBP_diff,main='Log Re
 par(mfrow=c(1,1))
 
 # ADF test after differencing ## no unit root
-adfTest(AUD_diff);adfTest(JPY_diff);adfTest(GBP_diff) 
+adfTest(AUD_diff);adfTest(JPY_diff);adfTest(GBP_diff)
 
-hist(AUD_diff,breaks=20,ylab='Frequency',xlab='',main='Difference of Log Exchange Rate') 
+hist(AUD_diff,breaks=20,ylab='Frequency',xlab='',main='Difference of Log Exchange Rate')
 
 
 install.packages('TSA')
@@ -68,12 +68,12 @@ t.test(GBP_diff)
 
 # ACF of diff and squared diff of log exchange rate
 par(mfrow=c(1,2))
-acf(AUD_diff,main='Log Return of Exchange Rate(AUD)',ylim=c(-0.2,0.4)) 
-acf(AUD_diff^2,main='Squared Log Return of Exchange Rate(AUD)',ylim=c(-0.2,0.4)) 
-acf(JPY_diff,main='Log Return of Exchange Rate(JPY)',ylim=c(-0.2,0.4)) 
+acf(AUD_diff,main='Log Return of Exchange Rate(AUD)',ylim=c(-0.2,0.4))
+acf(AUD_diff^2,main='Squared Log Return of Exchange Rate(AUD)',ylim=c(-0.2,0.4))
+acf(JPY_diff,main='Log Return of Exchange Rate(JPY)',ylim=c(-0.2,0.4))
 acf(JPY_diff^2,main='Squared Log Return of Exchange Rate(JPY)',ylim=c(-0.2,0.4)) ## not too much dependence
-acf(GBP_diff,main='Difference of Exchange Rate(GBP)',ylim=c(-0.2,0.4)) 
-acf(GBP_diff^2,main='Squared Log Return of Exchange Rate(GBP)',ylim=c(-0.2,0.4))  
+acf(GBP_diff,main='Difference of Exchange Rate(GBP)',ylim=c(-0.2,0.4))
+acf(GBP_diff^2,main='Squared Log Return of Exchange Rate(GBP)',ylim=c(-0.2,0.4))
 par(mfrow=c(1,1))
 
 # Ljung-Box test
@@ -85,7 +85,7 @@ Box.test(GBP_diff,lag=12,type=("Ljung-Box"))
 Box.test(GBP_diff^2,lag=12,type=("Ljung-Box"))
 
 library(fGarch)
-# Fit data into Garch(1,1), mean equation is a constant 
+# Fit data into Garch(1,1), mean equation is a constant
 m1 = garchFit(~garch(1,1),data=AUD_diff,trace=F)
 m2 = garchFit(~garch(1,1),data=JPY_diff,trace=F)
 m3 = garchFit(~garch(1,1),data=GBP_diff,trace=F)
@@ -123,51 +123,51 @@ m2_res_std = m2@residuals/volatility(m2)
 m3_res = m3@residuals
 m3_res_std = m3@residuals/volatility(m3)
 
-# Observe volatility and log return of exchange rate 
+# Observe volatility and log return of exchange rate
 plot(AUD_diff,typ='l',ylab='USD/AUD')
 lines(volatility(m1),col='red')
 legend(160,0.1,c('log return of USD/AUD','volatility'),col=c(1,2),lwd=c(2,2))
 
-# ACFs 
-par(mfrow=c(2,2)) 
-acf(m1_res,main='Residual (AUD)') 
-acf(m1_res^2,main='Residual Squared (AUD)') 
-acf(m1_res_std,main='GARCH(1,1) Std Residual (AUD)') 
-acf(m1_res_std^2,main='GARCH(1,1) Std Residual Squared (AUD)') 
+# ACFs
+par(mfrow=c(2,2))
+acf(m1_res,main='Residual (AUD)')
+acf(m1_res^2,main='Residual Squared (AUD)')
+acf(m1_res_std,main='GARCH(1,1) Std Residual (AUD)')
+acf(m1_res_std^2,main='GARCH(1,1) Std Residual Squared (AUD)')
 
-acf(m2_res,main='Residual (JPY)') 
-acf(m2_res^2,main='Residual Squared (JPY)') 
-acf(m2_res_std,main='GARCH(1,1) Std Residual (JPY)') 
-acf(m2_res_std^2,main='GARCH(1,1) Std Residual Squared (JPY)') 
+acf(m2_res,main='Residual (JPY)')
+acf(m2_res^2,main='Residual Squared (JPY)')
+acf(m2_res_std,main='GARCH(1,1) Std Residual (JPY)')
+acf(m2_res_std^2,main='GARCH(1,1) Std Residual Squared (JPY)')
 
-acf(m3_res,main='Residual (GBP)') 
-acf(m3_res^2,main='Residual Squared (GBP)') 
-acf(m3_res_std,main='GARCH(1,1) Std Residual (GBP)') 
-acf(m3_res_std^2,main='GARCH(1,1) Std Residual Squared (GBP)') 
+acf(m3_res,main='Residual (GBP)')
+acf(m3_res^2,main='Residual Squared (GBP)')
+acf(m3_res_std,main='GARCH(1,1) Std Residual (GBP)')
+acf(m3_res_std^2,main='GARCH(1,1) Std Residual Squared (GBP)')
 
-# PACFs 
-pacf(m1_res,main='Residual (AUD)',ylim=c(-0.1,0.5)) 
-pacf(m1_res^2,main='Residual Squared (AUD)',ylim=c(-0.1,0.5)) 
-pacf(m1_res_std,main='GARCH(1,1) Std Residual (AUD)',ylim=c(-0.1,0.5)) 
-pacf(m1_res_std^2,main='GARCH(1,1) Std Residual Squared (AUD)',ylim=c(-0.1,0.5)) 
+# PACFs
+pacf(m1_res,main='Residual (AUD)',ylim=c(-0.1,0.5))
+pacf(m1_res^2,main='Residual Squared (AUD)',ylim=c(-0.1,0.5))
+pacf(m1_res_std,main='GARCH(1,1) Std Residual (AUD)',ylim=c(-0.1,0.5))
+pacf(m1_res_std^2,main='GARCH(1,1) Std Residual Squared (AUD)',ylim=c(-0.1,0.5))
 
-pacf(m2_res,main='Residual (JPY)',ylim=c(-0.15,0.5)) 
-pacf(m2_res^2,main='Residual Squared (JPY)',ylim=c(-0.15,0.5)) 
-pacf(m2_res_std,main='GARCH(1,1) Std Residual (JPY)',ylim=c(-0.15,0.5)) 
-pacf(m2_res_std^2,main='GARCH(1,1) Std Residual Squared (JPY)',ylim=c(-0.15,0.5)) 
+pacf(m2_res,main='Residual (JPY)',ylim=c(-0.15,0.5))
+pacf(m2_res^2,main='Residual Squared (JPY)',ylim=c(-0.15,0.5))
+pacf(m2_res_std,main='GARCH(1,1) Std Residual (JPY)',ylim=c(-0.15,0.5))
+pacf(m2_res_std^2,main='GARCH(1,1) Std Residual Squared (JPY)',ylim=c(-0.15,0.5))
 
-pacf(m3_res,main='Residual (GBP)',ylim=c(-0.1,0.5)) 
-pacf(m3_res^2,main='Residual Squared (GBP)',ylim=c(-0.1,0.5)) 
-pacf(m3_res_std,main='GARCH(1,1) Std Residual (GBP)',ylim=c(-0.1,0.5)) 
-pacf(m3_res_std^2,main='GARCH(1,1) Std Residual Squared (GBP)',ylim=c(-0.1,0.5)) 
+pacf(m3_res,main='Residual (GBP)',ylim=c(-0.1,0.5))
+pacf(m3_res^2,main='Residual Squared (GBP)',ylim=c(-0.1,0.5))
+pacf(m3_res_std,main='GARCH(1,1) Std Residual (GBP)',ylim=c(-0.1,0.5))
+pacf(m3_res_std^2,main='GARCH(1,1) Std Residual Squared (GBP)',ylim=c(-0.1,0.5))
 
-par(mfrow=c(1,1)) 
+par(mfrow=c(1,1))
 plot(m1_res_std,typ='l',ylab='',main='Standardized Residuals (AUD)')
 plot(m2_res_std,typ='l',ylab='',main='Standardized Residuals (JPY)')
 plot(m3_res_std,typ='l',ylab='',main='Standardized Residuals (GBP)')
 
 n = nrow(spot) # number of full data
-m = nrow(spot[spot$date<="2013-07-01",]) 
+m = nrow(spot[spot$date<="2013-07-01",])
 realized_return = as.data.frame(matrix(rep(0,(n-m)*3),nrow=n-m))
 colnames(realized_return)=c('AUD','JPY','GBP')
 data_temp = c()
@@ -209,10 +209,10 @@ for(j in 1:3)
     else
       realized_return_ged[i,j] = forward[m-1+i,j+1] - spot[m+i,j+1]
   }
-} 
+}
 rm(i,j,mdl,pred,epsilon,data_temp)
 
-# OLS methods 
+# OLS methods
 realized_return_ols = as.data.frame(matrix(rep(0,(n-m)*3),nrow=n-m))
 colnames(realized_return_ols)=c('AUD','JPY','GBP')
 alpha_temp = c()
@@ -222,7 +222,7 @@ for(j in 1:3)
   for (i in 1:(n-m))
   {
     y = diff(spot[1:(m-1+i),j+1])
-    X = forward[1:(m-2+i),j+1]-spot[1:(m-2+i),j+1] 
+    X = forward[1:(m-2+i),j+1]-spot[1:(m-2+i),j+1]
     mdl = lm(y~X)
     if (mdl$coefficients[1]+ mdl$coefficients[2]*((forward[m-1+i,j+1] - spot[m-1+i,j+1]))> (forward[m-1+i,j+1] - spot[m-1+i,j+1]))
       realized_return_ols[i,j] = spot[m+i,j+1] - forward[m-1+i,j+1]
@@ -248,14 +248,14 @@ for (i in 1:(n-m))
   # predict the volatility of the next day
   pred1 = as.numeric(sqrt(mdl@fit$coef[2]+mdl@fit$coef[3]*mdl@fit$residuals[length(mdl@fit$residuals)]^2
                     +mdl@fit$coef[4]*mdl@fit$sigma[length(mdl@fit$sigma)]^2))
-  # select the last standardized residual as the next one 
+  # select the last standardized residual as the next one
   epsilon = residual_std[length(residual_std)]
   # sample(residual_std,size=1,replace=TRUE)
   if (mdl@fit$coef[1]+pred1 * epsilon > (forward[m-1+i,2] - spot[m-1+i,2]))
     realized_return_AUD[i] = spot[m+i,2] - forward[m-1+i,2]
   else
     realized_return_AUD[i] = forward[m-1+i,2] - spot[m+i,2]
-  
+
 }
 rm(spec,mdl,residual_std,pred1,epsilon)
 realized_return_AUD = data.frame(rtn = realized_return_AUD)
@@ -344,5 +344,3 @@ acf(residual_m1_E,main='Residual');acf(residual_m1_E^2,main='Squared Residual')
 acf(std_residual_m1_E,main='EGARCH(1,1) Standardized Residual');acf(std_residual_m1_E^2,main='EGARCH(1,1) Squared Standardized Residual')
 Box.test(m1_E@fit$residuals,lag=12,type=("Ljung-Box"))
 Box.test(std_residual_m1_E^2,lag=12,type=("Ljung-Box"))
-
-
